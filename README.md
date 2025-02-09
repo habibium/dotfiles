@@ -17,9 +17,6 @@ ln -sf ~/Code/dotfiles/oh-my-zsh/custom/env.zsh $ZSH_CUSTOM/env.zsh
 # symlink tmux config
 ln -sf ~/Code/dotfiles/tmux ~/.config/tmux
 
-# symlink Ghostty config
-ln -sf ~/Code/dotfiles/ghostty ~/.config/ghostty
-
 # symlink nvim config
 ln -sf ~/Code/dotfiles/nvim ~/.config/nvim
 
@@ -34,4 +31,10 @@ ln -sf ~/Code/dotfiles/nvim ~/.config/nvim
 
 # install homebrew packages
 brew bundle install --file=~/Code/dotfiles/Brewfile
+
+# symlink Ghostty config
+ln -sf ~/Code/dotfiles/ghostty ~/.config/ghostty
+
+# symlink karabiner config
+ln -sf ~/Code/dotfiles/karabiner ~/.config/karabiner
 ```
