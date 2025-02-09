@@ -37,4 +37,10 @@ ln -sf ~/Code/dotfiles/ghostty ~/.config/ghostty
 
 # symlink karabiner config
 ln -sf ~/Code/dotfiles/karabiner ~/.config/karabiner
+
+# download and install rcmd
+curl https://files.lowtechguys.com/rcmd.zip -o ~/Downloads/rcmd.zip
+cd ~/Downloads && unzip rcmd.zip && mv rcmd.app /Applications
+ln -sf ~/Code/dotfiles/rcmd/com.habib.reopenloop.plist ~/Library/LaunchAgents/com.habib.reopenloop.plist
+launchctl load -w ~/Library/LaunchAgents/com.habib.reopenloop.plist
 ```
