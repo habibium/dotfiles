@@ -12,10 +12,16 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
 
 # symlink zsh configs
-rm ~/.zshrc
 ln -sf ~/Code/dotfiles/oh-my-zsh/.zshrc ~/.zshrc
-rm $ZSH_CUSTOM/aliases.zsh
 ln -sf ~/Code/dotfiles/oh-my-zsh/custom/aliases.zsh $ZSH_CUSTOM/aliases.zsh
-rm $ZSH_CUSTOM/env.zsh
 ln -sf ~/Code/dotfiles/oh-my-zsh/custom/env.zsh $ZSH_CUSTOM/env.zsh
+```
+
+## Others
+
+```sh
+# tmux
+ln -sf ~/Code/dotfiles/tmux ~/.config/tmux
+# Ghostty
+ln -sf ~/Code/dotfiles/ghostty ~/.config/ghostty
 ```

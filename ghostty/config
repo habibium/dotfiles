@@ -1,0 +1,28 @@
+palette = 0=#484F58
+palette = 1=#FF7B72
+palette = 2=#3FBA50
+palette = 3=#D29922
+palette = 4=#58A6FF
+palette = 5=#BC8CFF
+palette = 6=#39C5CF
+palette = 7=#B1BAC4
+palette = 8=#6F7681
+palette = 9=#FFA198
+palette = 10=#56D364
+palette = 11=#E4B340
+palette = 12=#79C0FF
+palette = 13=#D2A8FF
+palette = 14=#57D4DD
+palette = 15=#FFF
+background = #000
+
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
+
+window-padding-x = 0
+window-padding-y = 0
+
+macos-titlebar-style = tabs
+
+keybind = super+backspace=text:\x15
