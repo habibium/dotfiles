@@ -20,6 +20,8 @@ ln -sf ~/Code/dotfiles/tmux ~/.config/
 # symlink nvim config
 ln -sf ~/Code/dotfiles/nvim ~/.config/
 
+# symlink gitconfig
+ln -sf ~/Code/dotfiles/git/.gitconfig ~/.gitconfig
 
 
 # ------------------------------------
