@@ -20,12 +20,7 @@ source $ZSH/oh-my-zsh.sh
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # fnm
-FNM_PATH="/Users/habib/Library/Application Support/fnm"
-if [ -d "$FNM_PATH" ]; then
-  export PATH="/Users/habib/Library/Application Support/fnm:$PATH"
-  eval "`fnm env`"
-fi
-eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
+eval "$(fnm env --use-on-cd --shell zsh)"
 
 # pnpm
 export PNPM_HOME="/Users/habib/Library/pnpm"
@@ -50,9 +45,6 @@ export PATH="$PATH:/opt/homebrew/opt/ruby/bin"
 export PATH="$PATH:/opt/homebrew/lib/ruby/gems/3.3.0/bin"
 export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
 
 fpath+=~/.zfunc; autoload -Uz compinit; compinit
 

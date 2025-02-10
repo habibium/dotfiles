@@ -1,0 +1,11 @@
+[user]
+	name = habibium
+	email = habib.prodev@gmail.com
+[init]
+	defaultBranch = main
+[color]
+	ui = auto
+[pull]
+	rebase = false
+[push]
+	autoSetupRemote = true
