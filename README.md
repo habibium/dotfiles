@@ -15,10 +15,10 @@ ln -sf ~/Code/dotfiles/oh-my-zsh/custom/aliases.zsh $ZSH_CUSTOM/aliases.zsh
 ln -sf ~/Code/dotfiles/oh-my-zsh/custom/env.zsh $ZSH_CUSTOM/env.zsh
 
 # symlink tmux config
-ln -sf ~/Code/dotfiles/tmux ~/.config/tmux
+ln -sf ~/Code/dotfiles/tmux ~/.config/
 
 # symlink nvim config
-ln -sf ~/Code/dotfiles/nvim ~/.config/nvim
+ln -sf ~/Code/dotfiles/nvim ~/.config/
 
 
 
@@ -33,10 +33,10 @@ ln -sf ~/Code/dotfiles/nvim ~/.config/nvim
 brew bundle install --file=~/Code/dotfiles/Brewfile
 
 # symlink Ghostty config
-ln -sf ~/Code/dotfiles/ghostty ~/.config/ghostty
+ln -sf ~/Code/dotfiles/ghostty ~/.config/
 
 # symlink karabiner config
-ln -sf ~/Code/dotfiles/karabiner ~/.config/karabiner
+ln -sf ~/Code/dotfiles/karabiner ~/.config/
 
 # download and install rcmd
 curl https://files.lowtechguys.com/rcmd.zip -o ~/Downloads/rcmd.zip
