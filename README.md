@@ -45,4 +45,7 @@ curl https://files.lowtechguys.com/rcmd.zip -o ~/Downloads/rcmd.zip
 cd ~/Downloads && unzip rcmd.zip && mv rcmd.app /Applications
 ln -sf ~/Code/dotfiles/rcmd/com.habib.reopenloop.plist ~/Library/LaunchAgents/com.habib.reopenloop.plist
 launchctl load -w ~/Library/LaunchAgents/com.habib.reopenloop.plist
+
+# enable touch id for sudo
+sudo cp ~/Code/dotfiles/sudo_local /etc/pam.d/sudo_local
 ```
