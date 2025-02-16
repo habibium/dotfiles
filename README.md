@@ -23,6 +23,15 @@ ln -sf ~/Code/dotfiles/nvim ~/.config/
 # symlink gitconfig
 ln -sf ~/Code/dotfiles/git/.gitconfig ~/.gitconfig
 
+# If on macOS, run the next 3 commands after the brew bundle install below
+# pnpm (ensure node is installed)
+curl -fsSL https://get.pnpm.io/install.sh | sh -
+
+# yarn (ensure node is installed)
+curl -o- -L https://yarnpkg.com/install.sh | bash
+
+# global npm packages
+pnpm i -g bun firebase-tools @antfu/ni serve
 
 # ------------------------------------
 # ********** MacOS Only **************

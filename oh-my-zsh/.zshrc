@@ -49,3 +49,5 @@ export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
 fpath+=~/.zfunc; autoload -Uz compinit; compinit
 
 zstyle ':completion:*' menu select
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
