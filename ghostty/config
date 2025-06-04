@@ -22,6 +22,7 @@ font-feature = -dlig
 
 window-padding-x = 0
 window-padding-y = 0
+confirm-close-surface = false
 
 macos-titlebar-style = tabs
 
