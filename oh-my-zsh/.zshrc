@@ -51,3 +51,12 @@ fpath+=~/.zfunc; autoload -Uz compinit; compinit
 zstyle ':completion:*' menu select
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# PHP
+export PATH="$PATH:$HOME/.config/composer/vendor/bin"
+
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/habib/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
