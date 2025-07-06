@@ -49,6 +49,9 @@ ln -sf ~/Code/dotfiles/ghostty ~/.config/
 # symlink karabiner config
 ln -sf ~/Code/dotfiles/karabiner ~/.config/
 
+# symlink nchat config
+ln -sf ~/Code/dotfiles/nchat ~/.config/
+
 # download and install rcmd
 curl https://files.lowtechguys.com/rcmd.zip -o ~/Downloads/rcmd.zip
 cd ~/Downloads && unzip rcmd.zip && mv rcmd.app /Applications
