@@ -11,3 +11,7 @@ alias bundletool="java -jar /usr/local/lib/bundletool/bundletool.jar"
 t() {
     find "$1" | sort | sed 's/[^/]*\//  /g;s/  \([^  ]\)/┃━ \1/'
 }
+
+function notify() {
+  terminal-notifier -title "Command completed" -message "" -sound default
+}
