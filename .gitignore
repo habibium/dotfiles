@@ -1,2 +1,3 @@
 nchat/*
 !nchat/*.conf
+.DS_Store
