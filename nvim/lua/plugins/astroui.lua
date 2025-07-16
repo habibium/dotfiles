@@ -12,8 +12,16 @@ return {
     colorscheme = "github_dark_default",
     -- AstroUI allows you to easily modify highlight groups easily for any and all colorschemes
     highlights = {
-      init = { -- this table overrides highlights in all themes
-        -- Normal = { bg = "#000000" },
+      init = {},
+      github_dark_default = { -- GitHub theme specific overrides
+        -- Use GitHub's actual dark colors for better integration
+        StatusLine = { bg = "#0d1117", fg = "#f0f6fc" },
+        -- StatusLineNC = { bg = "#161b22", fg = "#7d8590" },
+
+        -- Tabline improvements
+        -- TabLine = { bg = "#0d1117", fg = "#7d8590" },
+        -- TabLineFill = { bg = "#0d1117" },
+        -- TabLineSel = { bg = "#21262d", fg = "#f0f6fc", bold = true },
       },
       astrodark = { -- a table of overrides/changes when applying the astrotheme theme
         -- Normal = { bg = "#000000" },
