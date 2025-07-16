@@ -19,6 +19,7 @@ background = #000
 font-feature = -calt
 font-feature = -liga
 font-feature = -dlig
+font-size = 14
 
 window-padding-x = 0
 window-padding-y = 0
