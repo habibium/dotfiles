@@ -11,55 +11,49 @@ plugins=(
     zsh-syntax-highlighting
 )
 
-FPATH="/opt/homebrew/share/zsh/site-functions:${FPATH}"
-fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
+# fpath setup
+fpath=(/opt/homebrew/share/zsh/site-functions \
+       ${ZSH_CUSTOM:-${ZSH:-$HOME/.oh-my-zsh}/custom}/plugins/zsh-completions/src \
+       $HOME/.zfunc \
+       $HOME/.docker/completions $fpath)
 
 source $ZSH/oh-my-zsh.sh
 
-# homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Homebrew
+if command -v brew &>/dev/null; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 # fnm
-eval "$(fnm env --use-on-cd --shell zsh)"
+if command -v fnm &>/dev/null; then
+  eval "$(fnm env --use-on-cd --shell zsh)"
+fi
 
 # pnpm
-export PNPM_HOME="/Users/habib/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
+export PNPM_HOME="$HOME/Library/pnpm"
+if [[ ":$PATH:" != *":$PNPM_HOME:"* ]]; then
+  export PATH="$PNPM_HOME:$PATH"
+fi
 
-# java
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+# Java
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
 
-# android
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+# Android
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin"
 
-# ruby homebrew
-export PATH="$PATH:/opt/homebrew/opt/ruby/bin"
-export PATH="$PATH:/opt/homebrew/lib/ruby/gems/3.3.0/bin"
+# Ruby (Homebrew)
+export PATH="$PATH:/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/3.3.0/bin"
 export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
 
-fpath+=~/.zfunc; autoload -Uz compinit; compinit
-
-zstyle ':completion:*' menu select
-
+# Yarn
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-# PHP
+# PHP Composer
 export PATH="$PATH:$HOME/.config/composer/vendor/bin"
 
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(/Users/habib/.docker/completions $fpath)
+# Completion system
 autoload -Uz compinit
 compinit
-# End of Docker CLI completions
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
+zstyle ':completion:*' menu select
