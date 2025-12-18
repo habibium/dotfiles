@@ -1,74 +1,76 @@
-# Add deno completions to search path
-if [[ ":$FPATH:" != *":/Users/habib/.zsh/completions:"* ]]; then export FPATH="/Users/habib/.zsh/completions:$FPATH"; fi
-export ZSH="$HOME/.oh-my-zsh"
+# ═══════════════════════════════════════════════════════════════════════════
+# OPTIMIZED ZSHRC - Habib
+# ═══════════════════════════════════════════════════════════════════════════
 
+export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 
+# ─── Oh-My-Zsh Performance Optimizations ───────────────────────────────────
+# Skip compfix security checks (biggest speedup for compinit)
+ZSH_DISABLE_COMPFIX=true
+# Disable auto-update checks on startup (check manually with `omz update`)
+DISABLE_AUTO_UPDATE=true
+# Disable magic functions for faster paste
+DISABLE_MAGIC_FUNCTIONS=true
+
+# ─── Plugins ───────────────────────────────────────────────────────────────
 plugins=(
-    fzf
-    z
     git
+    z
+    fzf
     history-substring-search
     zsh-autosuggestions
-    zsh-syntax-highlighting
+    zsh-syntax-highlighting  # Must be last
 )
 
-# fpath setup
-fpath=(/opt/homebrew/share/zsh/site-functions \
-       ${ZSH_CUSTOM:-${ZSH:-$HOME/.oh-my-zsh}/custom}/plugins/zsh-completions/src \
-       $HOME/.zfunc \
-       $HOME/.docker/completions $fpath)
+# ─── fpath (completion directories) ────────────────────────────────────────
+# Add BEFORE sourcing oh-my-zsh
+fpath=(
+    $HOME/.zsh/completions
+    /opt/homebrew/share/zsh/site-functions
+    $fpath
+)
 
 source $ZSH/oh-my-zsh.sh
 
+# ─── Bun Completions (sourced directly for proper loading) ─────────────────
+[[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
+
+# ─── Environment Variables ─────────────────────────────────────────────────
 # Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# pnpm
+# PNPM
 export PNPM_HOME="$HOME/Library/pnpm"
-if [[ ":$PATH:" != *":$PNPM_HOME:"* ]]; then
-  export PATH="$PNPM_HOME:$PATH"
-fi
 
-# Java 17
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
-# Java 21
-# export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
-
-# Android
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export ANDROID_NDK_HOME="$HOME/Library/Android/sdk/ndk/27.1.12297006"
-export PATH=$PATH:$ANDROID_NDK_HOME
-
-# DBNgin PostgreSQL 17
-export PATH=/Users/Shared/DBngin/postgresql/17.0/bin:$PATH
-
-# Yarn
-# export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
-# PHP Composer
-export PATH="$PATH:$HOME/.config/composer/vendor/bin"
-
-# Completion system
-autoload -Uz compinit
-compinit
-zstyle ':completion:*' menu select
-. "/Users/habib/.deno/env"
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/habib/.lmstudio/bin"
-# End of LM Studio CLI section
-
-# bun completions
-[ -s "/Users/habib/.bun/_bun" ] && source "/Users/habib/.bun/_bun"
-
-# bun
+# Bun
 export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
 
+# Android SDK
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export ANDROID_NDK_HOME="$ANDROID_HOME/ndk/27.1.12297006"
 
+# ─── PATH (consolidated, unique entries) ───────────────────────────────────
+typeset -U path PATH  # Ensure unique entries
 
+path=(
+    "$HOME/.local/bin"
+    "/opt/homebrew/bin"
+    "/opt/homebrew/sbin"
+    "$PNPM_HOME"
+    "$BUN_INSTALL/bin"
+    "$HOME/.deno/bin"
+    "$HOME/.lmstudio/bin"
+    "/Users/Shared/DBngin/postgresql/17.0/bin"
+    "$ANDROID_HOME/emulator"
+    "$ANDROID_HOME/platform-tools"
+    "$ANDROID_NDK_HOME"
+    $path
+)
+export PATH
 
-. "$HOME/.local/bin/env"
+# ─── Completion Styling ────────────────────────────────────────────────────
+zstyle ':completion:*' menu select
+
+# ─── Mise (version manager) ────────────────────────────────────────────────
+eval "$(mise activate zsh)"

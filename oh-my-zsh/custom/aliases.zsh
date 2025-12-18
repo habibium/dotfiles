@@ -4,7 +4,6 @@ alias v='nvim'
 alias im='magick'
 alias gurc='git reset --soft HEAD~'
 alias idea='open -na "IntelliJ IDEA"'
-alias bundletool="java -jar /usr/local/lib/bundletool/bundletool.jar"
 
 t() {
     find "$1" | sort | sed 's/[^/]*\//  /g;s/  \([^  ]\)/┃━ \1/'
