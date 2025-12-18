@@ -1,17 +1,11 @@
-# ═══════════════════════════════════════════════════════════════════════════
-# OPTIMIZED ZSHRC - Habib
-# ═══════════════════════════════════════════════════════════════════════════
-
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 
 # ─── Oh-My-Zsh Performance Optimizations ───────────────────────────────────
-# Skip compfix security checks (biggest speedup for compinit)
+# Skip compfix security checks (run manually with `compinit, compaudit`) 
 ZSH_DISABLE_COMPFIX=true
 # Disable auto-update checks on startup (check manually with `omz update`)
 DISABLE_AUTO_UPDATE=true
-# Disable magic functions for faster paste
-DISABLE_MAGIC_FUNCTIONS=true
 
 # ─── Plugins ───────────────────────────────────────────────────────────────
 plugins=(
@@ -32,9 +26,6 @@ fpath=(
 )
 
 source $ZSH/oh-my-zsh.sh
-
-# ─── Bun Completions (sourced directly for proper loading) ─────────────────
-[[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
 
 # ─── Environment Variables ─────────────────────────────────────────────────
 # Homebrew
@@ -72,5 +63,5 @@ export PATH
 # ─── Completion Styling ────────────────────────────────────────────────────
 zstyle ':completion:*' menu select
 
-# ─── Mise (version manager) ────────────────────────────────────────────────
+# ─── Mise ────────────────────────────────────────────────
 eval "$(mise activate zsh)"
