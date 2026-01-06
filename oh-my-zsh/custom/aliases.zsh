@@ -4,6 +4,7 @@ alias v='nvim'
 alias im='magick'
 alias gurc='git reset --soft HEAD~'
 alias idea='open -na "IntelliJ IDEA"'
+alias lg='lazygit'
 
 t() {
     find "$1" | sort | sed 's/[^/]*\//  /g;s/  \([^  ]\)/┃━ \1/'

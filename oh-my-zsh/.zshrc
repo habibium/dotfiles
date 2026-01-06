@@ -65,3 +65,9 @@ zstyle ':completion:*' menu select
 
 # ─── Mise ────────────────────────────────────────────────
 eval "$(mise activate zsh)"
+
+# opencode
+export PATH=/Users/habib/.opencode/bin:$PATH
+
+# Added by Antigravity
+export PATH="/Users/habib/.antigravity/antigravity/bin:$PATH"
