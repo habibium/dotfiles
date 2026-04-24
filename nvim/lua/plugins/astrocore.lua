@@ -43,6 +43,7 @@ return {
         spell = false, -- sets vim.opt.spell
         signcolumn = "yes", -- sets vim.opt.signcolumn to yes
         wrap = false, -- sets vim.opt.wrap
+        clipboard = "", -- Disable default system clipboard
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
@@ -56,6 +57,7 @@ return {
       -- first key is the mode
       n = {
         -- second key is the lefthand side of the map
+        ["<Leader>y"] = { '"+y', desc = "Yank to system clipboard" },
 
         -- navigate buffer tabs
         ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
@@ -77,6 +79,9 @@ return {
 
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
+      },
+      v = {
+        ["<Leader>y"] = { '"+y', desc = "Yank to system clipboard" },
       },
     },
   },

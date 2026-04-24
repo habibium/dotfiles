@@ -1,59 +1,71 @@
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="robbyrussell"
+eval "$(starship init zsh)"
 
+# ─── Oh-My-Zsh Performance Optimizations ───────────────────────────────────
+# Skip compfix security checks (run manually with `compinit, compaudit`) 
+ZSH_DISABLE_COMPFIX=true
+# Disable auto-update checks on startup (check manually with `omz update`)
+DISABLE_AUTO_UPDATE=true
+
+# ─── Plugins ───────────────────────────────────────────────────────────────
 plugins=(
-    fzf
-    z
     git
+    z
+    fzf
     history-substring-search
     zsh-autosuggestions
-    zsh-syntax-highlighting
+    zsh-syntax-highlighting  # Must be last
 )
 
-# fpath setup
-fpath=(/opt/homebrew/share/zsh/site-functions \
-       ${ZSH_CUSTOM:-${ZSH:-$HOME/.oh-my-zsh}/custom}/plugins/zsh-completions/src \
-       $HOME/.zfunc \
-       $HOME/.docker/completions $fpath)
+# ─── fpath (completion directories) ────────────────────────────────────────
+# Add BEFORE sourcing oh-my-zsh
+fpath=(
+    $HOME/.zsh/completions
+    /opt/homebrew/share/zsh/site-functions
+    $fpath
+)
 
 source $ZSH/oh-my-zsh.sh
 
+# ─── Environment Variables ─────────────────────────────────────────────────
 # Homebrew
-if command -v brew &>/dev/null; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# fnm
-if command -v fnm &>/dev/null; then
-  eval "$(fnm env --use-on-cd --shell zsh)"
-fi
-
-# pnpm
+# PNPM
 export PNPM_HOME="$HOME/Library/pnpm"
-if [[ ":$PATH:" != *":$PNPM_HOME:"* ]]; then
-  export PATH="$PNPM_HOME:$PATH"
-fi
 
-# Java
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
+# Bun
+export BUN_INSTALL="$HOME/.bun"
 
-# Android
+# Android SDK
 export ANDROID_HOME="$HOME/Library/Android/sdk"
-export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin"
+export ANDROID_NDK_HOME="$ANDROID_HOME/ndk/27.1.12297006"
 
-# Ruby (Homebrew)
-export PATH="$PATH:/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/3.3.0/bin"
-export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
+# ─── PATH (consolidated, unique entries) ───────────────────────────────────
+typeset -U path PATH  # Ensure unique entries
 
-# Yarn
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+path=(
+    "$HOME/.local/bin"
+    "/opt/homebrew/bin"
+    "/opt/homebrew/sbin"
+    "$PNPM_HOME"
+    "$BUN_INSTALL/bin"
+    "$HOME/.deno/bin"
+    "$HOME/.lmstudio/bin"
+    "/Users/Shared/DBngin/postgresql/18.1/bin"
+    "$ANDROID_HOME/emulator"
+    "$ANDROID_HOME/platform-tools"
+    "$ANDROID_NDK_HOME"
+    "/Users/habib/.antigravity/antigravity/bin"
+    "/Users/habib/.opencode/bin"
+    "/Users/habib/.lmstudio/bin"
+    $path
+)
+export PATH
 
-# PHP Composer
-export PATH="$PATH:$HOME/.config/composer/vendor/bin"
-
-# Completion system
-autoload -Uz compinit
-compinit
+# ─── Completion Styling ────────────────────────────────────────────────────
 zstyle ':completion:*' menu select
+
+# ─── Mise ────────────────────────────────────────────────
+eval "$(mise activate zsh)"
