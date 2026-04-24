@@ -28,8 +28,8 @@ confirm-close-surface = false
 
 macos-titlebar-style = tabs
 
-# Keybindings
-keybind = shift+enter=text:\n
-
 notify-on-command-finish = always
 notify-on-command-finish-action = notify
+
+# Keybindings
+keybind = shift+enter=text:\n
