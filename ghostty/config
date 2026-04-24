@@ -16,6 +16,7 @@ palette = 14=#57D4DD
 palette = 15=#FFF
 background = #000
 
+font-family = "JetBrains Mono"
 font-feature = -calt
 font-feature = -liga
 font-feature = -dlig
@@ -29,3 +30,6 @@ macos-titlebar-style = tabs
 
 # Keybindings
 keybind = shift+enter=text:\n
+
+notify-on-command-finish = always
+notify-on-command-finish-action = notify

@@ -1,5 +1,6 @@
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="robbyrussell"
+
+eval "$(starship init zsh)"
 
 # ─── Oh-My-Zsh Performance Optimizations ───────────────────────────────────
 # Skip compfix security checks (run manually with `compinit, compaudit`) 
@@ -52,10 +53,13 @@ path=(
     "$BUN_INSTALL/bin"
     "$HOME/.deno/bin"
     "$HOME/.lmstudio/bin"
-    "/Users/Shared/DBngin/postgresql/17.0/bin"
+    "/Users/Shared/DBngin/postgresql/18.1/bin"
     "$ANDROID_HOME/emulator"
     "$ANDROID_HOME/platform-tools"
     "$ANDROID_NDK_HOME"
+    "/Users/habib/.antigravity/antigravity/bin"
+    "/Users/habib/.opencode/bin"
+    "/Users/habib/.lmstudio/bin"
     $path
 )
 export PATH
@@ -65,9 +69,3 @@ zstyle ':completion:*' menu select
 
 # ─── Mise ────────────────────────────────────────────────
 eval "$(mise activate zsh)"
-
-# opencode
-export PATH=/Users/habib/.opencode/bin:$PATH
-
-# Added by Antigravity
-export PATH="/Users/habib/.antigravity/antigravity/bin:$PATH"
