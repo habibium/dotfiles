@@ -19,7 +19,7 @@
 Installation
 ------------
 
-Requirements:
+**Requirements:**
 
   - tmux **`>= 2.6`** running on Linux, macOS, OpenBSD, Windows (WSL or Cygwin)
   - awk, perl (with Time::HiRes support), grep, and sed
@@ -33,7 +33,14 @@ You can install Oh my tmux! at any of the following locations:
 - `$XDG_CONFIG_HOME/tmux`
 - `~/.config/tmux`
 
-Installing in `~`:
+**Automatic installation**
+
+Copy the following command and paste it in your terminal.
+```
+curl -fsSL "https://github.com/gpakosz/.tmux/raw/refs/heads/master/install.sh#$(date +%s)" | bash
+```
+
+**Manual installation in `~`**
 ```
 $ cd
 $ git clone --single-branch https://github.com/gpakosz/.tmux.git
@@ -41,20 +48,20 @@ $ ln -s -f .tmux/.tmux.conf
 $ cp .tmux/.tmux.conf.local .
 ```
 
-Installing in `$XDG_CONFIG_HOME/tmux`:
+**Manual installation in `$XDG_CONFIG_HOME/tmux`**
 ```
 $ git clone --single-branch https://github.com/gpakosz/.tmux.git "/path/to/oh-my-tmux"
 $ mkdir -p "$XDG_CONFIG_HOME/tmux"
-$ ln -s "/path/to/oh-my-tmux/.tmux.conf" "$XDG_CONFIG_HOME/tmux/tmux.conf"
-$ cp "/path/to/oh-my-tmux/.tmux.conf.local" "$XDG_CONFIG_HOME/tmux/tmux.conf.local"
+$ ln -s /path/to/oh-my-tmux/.tmux.conf "$XDG_CONFIG_HOME/tmux/tmux.conf"
+$ cp /path/to/oh-my-tmux/.tmux.conf.local "$XDG_CONFIG_HOME/tmux/tmux.conf.local"
 ```
 
-Installing in `~/.config/tmux`:
+**Manual installation `~/.config/tmux`**
 ```
 $ git clone --single-branch https://github.com/gpakosz/.tmux.git "/path/to/oh-my-tmux"
-$ mkdir -p "~/.config/tmux"
-$ ln -s "/path/to/oh-my-tmux/.tmux.conf" "~/.config/tmux/tmux.conf"
-$ cp "/path/to/oh-my-tmux/.tmux.conf.local" "~/.config/tmux/tmux.conf.local"
+$ mkdir -p ~/.config/tmux
+$ ln -s /path/to/oh-my-tmux/.tmux.conf ~/.config/tmux/tmux.conf
+$ cp /path/to/oh-my-tmux/.tmux.conf.local ~/.config/tmux/tmux.conf.local
 ```
 ⚠️ When installing `$XDG_CONFIG_HOME/tmux` or `~/.config/tmux`, the configuration
 file names don't have a leading `.` character.
@@ -63,8 +70,9 @@ file names don't have a leading `.` character.
 you're on your own. Instead, every customization should happen in your
 `.tmux.conf.local` or `tmux.conf.local` customization file copy.**
 
-If you're a Vim user, setting the `EDITOR` environment variable to `vim` will
-enable and further customize the `vi-style` key bindings (see tmux manual).
+If you're a Vim user, setting the `VIUAL` or `EDITOR` environment variable to
+`vim` will enable and further customize the `vi-style` key bindings (see tmux
+manual).
 
 If you're new to tmux, I recommend you to read the [tmux getting started
 guide][getting-started], as well as the [tmux 3: Productive Mouse-Free
@@ -211,7 +219,8 @@ list of key bindings:
 This configuration uses the following bindings:
 
   - `<prefix> e` opens the `.local` customization file copy with the editor
-    defined by the `EDITOR` environment variable (defaults to `vim` when empty)
+    defined by the `VISUAL` or `EDITOR` environment variable (defaults to `vim`
+    when empty)
   - `<prefix> r` reloads the configuration
   - `C-l` clears both the screen **and** the tmux history
 
@@ -269,8 +278,8 @@ If you do, you're on your own.
 Please refer to the sample `.local` customization file to know more about the
 variables that allow you to alter different behaviors. Upon successful
 installation, pressing `<prefix> e` will open your `.local` customization file
-copy with the editor defined by the `EDITOR` environment variable (defaults to
-`vim` when empty).
+copy with the editor defined by the `VISUAL` or `EDITOR` environment variable
+(defaults to `vim` when empty).
 
 ### Enabling the Powerline look
 
