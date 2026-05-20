@@ -1,0 +1,391 @@
+{
+  "cli_default_open_behavior": "new_window",
+  "project_panel": {
+    "dock": "left"
+  },
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "agent": {
+    "dock": "right",
+    "favorite_models": [],
+    "model_parameters": []
+  },
+  "base_keymap": "VSCode",
+  "vertical_scroll_margin": 4.0,
+  "gutter": {
+    "line_numbers": true
+  },
+  "minimap": {
+    "show": "never"
+  },
+  "file_types": {
+    "tailwindcss": ["*.css"]
+  },
+  "soft_wrap": "editor_width",
+  "disable_ai": true,
+  "theme": {
+    "mode": "system",
+    "light": "GitHub Light",
+    "dark": "GitHub Dark"
+  },
+  "icon_theme": "Material Icon Theme",
+  "tabs": {
+    "file_icons": true
+  },
+  "git_panel": {
+    "dock": "left",
+    "tree_view": true,
+    "sort_by_path": true
+  },
+  "vim_mode": true,
+  "vim": {
+    "use_system_clipboard": "never"
+  },
+  "which_key": {
+    "enabled": true
+  },
+  "sticky_scroll": {
+    "enabled": true
+  },
+  "relative_line_numbers": "enabled",
+  "buffer_font_fallbacks": ["Monaco"],
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_features": {
+    "calt": false
+  },
+  "buffer_font_size": 14.0,
+  "language_servers": ["!eslint", "!typescript-language-server", "..."],
+  "lsp": {
+    "oxlint": {
+      "initialization_options": {
+        "settings": {
+          "configPath": null,
+          "run": "onType",
+          "disableNestedConfig": false,
+          "fixKind": "safe_fix",
+          "unusedDisableDirectives": "deny"
+        }
+      }
+    },
+    "oxfmt": {
+      "initialization_options": {
+        "settings": {
+          "fmt.configPath": null,
+          "run": "onSave"
+        }
+      }
+    },
+    "rust-analyzer": {
+      "initialization_options": {
+        "check": {
+          "command": "clippy"
+        }
+      }
+    },
+    "tinymist": {
+      "settings": {
+        "exportPdf": "onSave",
+        "outputPath": "$root/$name"
+      }
+    }
+  },
+  "languages": {
+    "CSS": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "language_servers": ["tailwindcss-intellisense-css", "!vscode-css-language-server", "..."],
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ]
+    },
+    "GraphQL": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ]
+    },
+    "Handlebars": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ]
+    },
+    "HTML": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ]
+    },
+    "JavaScript": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        },
+        {
+          "code_action": "source.fixAll.oxc"
+        }
+      ]
+    },
+    "JSON": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ]
+    },
+    "JSON5": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ]
+    },
+    "JSONC": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ]
+    },
+    "Less": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ]
+    },
+    "Markdown": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ]
+    },
+    "MDX": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ]
+    },
+    "SCSS": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ]
+    },
+    "TypeScript": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ]
+    },
+    "TSX": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ]
+    },
+    "Typst": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "typstyle"
+        }
+      }
+    },
+    "Vue.js": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ]
+    },
+    "YAML": {
+      "soft_wrap": "editor_width",
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt"
+          }
+        }
+      ]
+    }
+  },
+  "ssh_connections": [
+    {
+      "host": "omarchy",
+      "args": [],
+      "projects": [
+        {
+          "paths": ["/home/habib/Code"]
+        },
+        {
+          "paths": ["/home/habib/Code/MIEEnglish_BD/./"]
+        },
+        {
+          "paths": ["/home/habib/Code/ahzassociates.com/ahz_new"]
+        },
+        {
+          "paths": ["/home/habib/Code/ez-own"]
+        },
+        {
+          "paths": ["/home/habib/Code/ez-own/./"]
+        },
+        {
+          "paths": ["/home/habib/Code/mh-global-crm/mieCRM/./"]
+        },
+        {
+          "paths": ["/home/habib/Code/mie_pathway/./"]
+        },
+        {
+          "paths": ["/home/habib/Code/mieglobal_ahzsite"]
+        },
+        {
+          "paths": ["/home/habib/Code/mieglobal_ahzsite/next/./"]
+        },
+        {
+          "paths": ["/home/habib/Code/rust-playground/./"]
+        },
+        {
+          "paths": ["/home/habib/Code/whatsapp-message-scheduler/./"]
+        }
+      ]
+    },
+    {
+      "host": "omarchy-cf",
+      "args": [],
+      "projects": [
+        {
+          "paths": ["/home/habib/Code"]
+        },
+        {
+          "paths": ["/home/habib/Code/ez-own/./"]
+        },
+        {
+          "paths": ["/home/habib/Code/whatsapp-message-scheduler/./"]
+        }
+      ]
+    }
+  ]
+}

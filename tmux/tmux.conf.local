@@ -386,6 +386,15 @@ tmux_conf_urlscan_options="--compact --dedupe"
 # increase history size
 set -g history-limit 50000
 
+# this is the place to override or undo settings
+set -g allow-passthrough on
+
+# This tells tmux to pass through the escape sequences for images
+set -as terminal-overrides ',xterm-256color:Ms=\\E]52;%p1%s;%p2%s\\a'
+set -as terminal-overrides ',*:SetPh=\\E[?2026h' # Optional: for synchronized updates
+set -g default-terminal "tmux-256color"
+set -ag terminal-overrides ",xterm-256color:RGB"
+
 # start with mouse mode enabled
 set -g @plugin 'nhdaly/tmux-better-mouse-mode'
 set -g mouse on

@@ -23,6 +23,15 @@ ln -sf ~/Code/dotfiles/nvim ~/.config/
 # symlink gitconfig
 ln -sf ~/Code/dotfiles/git/.gitconfig ~/.gitconfig
 
+# symlink Zed config (settings + keymap)
+mkdir -p ~/.config/zed
+ln -sf ~/Code/dotfiles/zed/settings.json ~/.config/zed/settings.json
+ln -sf ~/Code/dotfiles/zed/keymap.json   ~/.config/zed/keymap.json
+
+# symlink Claude Code statusline script
+mkdir -p ~/.claude
+ln -sf ~/Code/dotfiles/claude/statusline.js ~/.claude/statusline.js
+
 # If on macOS, run the next 3 commands after the brew bundle install below
 # pnpm (ensure node is installed)
 curl -fsSL https://get.pnpm.io/install.sh | sh -
