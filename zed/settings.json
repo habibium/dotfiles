@@ -58,6 +58,7 @@
     "calt": false
   },
   "buffer_font_size": 14.0,
+  "language_servers": ["!eslint", "!typescript-language-server", "..."],
   "lsp": {
     "oxlint": {
       "initialization_options": {
