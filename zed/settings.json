@@ -1,10 +1,17 @@
 {
   "cli_default_open_behavior": "new_window",
   "project_panel": {
+    "default_width": 320,
+    "git_status_indicator": true,
     "dock": "left"
   },
   "outline_panel": {
     "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left",
+    "tree_view": true,
+    "sort_by_path": true
   },
   "collaboration_panel": {
     "dock": "left"
@@ -35,11 +42,6 @@
   "icon_theme": "Material Icon Theme",
   "tabs": {
     "file_icons": true
-  },
-  "git_panel": {
-    "dock": "left",
-    "tree_view": true,
-    "sort_by_path": true
   },
   "vim_mode": true,
   "vim": {
@@ -154,6 +156,7 @@
     "JavaScript": {
       "soft_wrap": "editor_width",
       "format_on_save": "on",
+      "language_servers": ["oxlint", "!eslint", "!typescript-language-server", "..."],
       "prettier": {
         "allowed": false
       },
@@ -269,6 +272,7 @@
     "TypeScript": {
       "soft_wrap": "editor_width",
       "format_on_save": "on",
+      "language_servers": ["oxlint", "!eslint", "!typescript-language-server", "..."],
       "prettier": {
         "allowed": false
       },
@@ -277,12 +281,16 @@
           "language_server": {
             "name": "oxfmt"
           }
+        },
+        {
+          "code_action": "source.fixAll.oxc"
         }
       ]
     },
     "TSX": {
       "soft_wrap": "editor_width",
       "format_on_save": "on",
+      "language_servers": ["oxlint", "!eslint", "!typescript-language-server", "..."],
       "prettier": {
         "allowed": false
       },
@@ -291,6 +299,9 @@
           "language_server": {
             "name": "oxfmt"
           }
+        },
+        {
+          "code_action": "source.fixAll.oxc"
         }
       ]
     },
@@ -381,6 +392,21 @@
         },
         {
           "paths": ["/home/habib/Code/ez-own/./"]
+        },
+        {
+          "paths": ["/home/habib/Code/whatsapp-message-scheduler/./"]
+        }
+      ]
+    },
+    {
+      "host": "omarchy-ts",
+      "args": [],
+      "projects": [
+        {
+          "paths": ["/home/habib/Code/ez-own/./"]
+        },
+        {
+          "paths": ["/home/habib/Code/whatsapp-automator"]
         },
         {
           "paths": ["/home/habib/Code/whatsapp-message-scheduler/./"]
