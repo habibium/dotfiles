@@ -1,45 +1,55 @@
-alias pwrinfo='system_profiler SPPowerDataType'
+# ─── Common (both OSes) ────────────────────────────────────────────────────
 alias c='code'
 alias v='nvim'
 alias im='magick'
 alias gurc='git reset --soft HEAD~'
-alias idea='open -na "IntelliJ IDEA"'
 alias lg='lazygit'
 
 t() {
     find "$1" | sort | sed 's/[^/]*\//  /g;s/  \([^  ]\)/┃━ \1/'
 }
 
-function notify() {
-  terminal-notifier -title "Command completed" -message "" -sound default
-}
+# ─── Platform-specific ─────────────────────────────────────────────────────
+case $OSTYPE in
+  darwin*)
+    alias pwrinfo='system_profiler SPPowerDataType'
+    alias idea='open -na "IntelliJ IDEA"'
 
-# Upload Mac clipboard image to remote host
-# Usage: imgup <host>
-function imgup() {
-    local remote_host="${1:-omarchy}" # Default to 'omarchy' (or your SSH alias)
-    local filename="img_$(date +%s).png"
-    local local_path="/tmp/$filename"
-    local remote_dest="~/$filename"
+    notify() {
+      terminal-notifier -title "Command completed" -message "" -sound default
+    }
 
-    # 1. Save clipboard to local temp file
-    if ! pngpaste "$local_path" 2>/dev/null; then
-        echo "❌ Clipboard does not contain an image."
-        return 1
-    fi
+    # Upload Mac clipboard image to remote host.
+    # Usage: imgup <ssh-host>
+    imgup() {
+        local remote_host="${1:-omarchy}"
+        local filename="img_$(date +%s).png"
+        local local_path="/tmp/$filename"
+        local remote_dest="~/$filename"
 
-    echo "🚀 Uploading to $remote_host..."
-    
-    # 2. Upload to remote (Arch)
-    scp -q "$local_path" "$remote_host:$remote_dest"
-    
-    # 3. Clean up local file
-    rm "$local_path"
+        if ! pngpaste "$local_path" 2>/dev/null; then
+            echo "❌ Clipboard does not contain an image."
+            return 1
+        fi
 
-    # 4. Copy the REMOTE path to your LOCAL clipboard
-    # This makes it ready to paste directly into OpenCode, Due to some issues opencode doesn't allow pasting .png string
-    echo -n "${remote_dest%g}" | pbcopy
-    
-    echo "✅ Uploaded to $remote_dest"
-    echo "📋 Remote path copied to clipboard! Just Cmd+V in your SSH session."
-}
+        echo "🚀 Uploading to $remote_host..."
+        scp -q "$local_path" "$remote_host:$remote_dest"
+        rm "$local_path"
+
+        # Copy the REMOTE path to the LOCAL clipboard for easy paste into a
+        # remote tool (e.g. OpenCode) that doesn't accept .png clipboard data.
+        echo -n "${remote_dest%g}" | pbcopy
+
+        echo "✅ Uploaded to $remote_dest"
+        echo "📋 Remote path copied to clipboard! Just Cmd+V in your SSH session."
+    }
+    ;;
+  linux*)
+    alias conda0='conda init --all --reverse'
+    alias conda1='~/.miniconda3/bin/conda init bash; ~/.miniconda3/bin/conda init zsh'
+
+    notify() {
+      command -v notify-send >/dev/null 2>&1 && notify-send "Command completed"
+    }
+    ;;
+esac

@@ -33,3 +33,7 @@ notify-on-command-finish-action = notify
 
 # Keybindings
 keybind = shift+enter=text:\n
+
+# Fix general slowness on hyprland (https://github.com/ghostty-org/ghostty/discussions/3224)
+# Linux-only option; Ghostty on macOS warns and ignores it.
+async-backend = epoll

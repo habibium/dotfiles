@@ -22,9 +22,11 @@ plugins=(
 # Add BEFORE sourcing oh-my-zsh
 fpath=(
     $HOME/.zsh/completions
-    /opt/homebrew/share/zsh/site-functions
     $fpath
 )
+case $OSTYPE in
+  darwin*) fpath=(/opt/homebrew/share/zsh/site-functions $fpath) ;;
+esac
 
 source $ZSH/oh-my-zsh.sh
 
@@ -32,32 +34,56 @@ source $ZSH/oh-my-zsh.sh
 eval "$(starship init zsh)"
 
 # ─── Environment Variables ─────────────────────────────────────────────────
-# Homebrew (sets PATH, MANPATH, HOMEBREW_PREFIX, INFOPATH, etc.)
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
 # Bun
 export BUN_INSTALL="$HOME/.bun"
 
-# Android SDK
-export ANDROID_HOME="$HOME/Library/Android/sdk"
-export ANDROID_NDK_HOME="$ANDROID_HOME/ndk/27.1.12297006"
+# Android SDK (path differs per OS)
+case $OSTYPE in
+  darwin*)
+    export ANDROID_HOME="$HOME/Library/Android/sdk"
+    export ANDROID_NDK_HOME="$ANDROID_HOME/ndk/27.1.12297006"
+    ;;
+  linux*)
+    export ANDROID_HOME="$HOME/Android/Sdk"
+    ;;
+esac
 
 # ─── PATH (consolidated, unique entries) ───────────────────────────────────
 typeset -U path PATH  # Ensure unique entries
 
+# Common entries (work on both OSes when the tool is installed)
 path=(
     $HOME/.local/bin
     $BUN_INSTALL/bin
     $HOME/.deno/bin
-    $HOME/.lmstudio/bin
-    /Users/Shared/DBngin/postgresql/18.1/bin
+    $HOME/.opencode/bin
     $ANDROID_HOME/emulator
     $ANDROID_HOME/platform-tools
-    $ANDROID_NDK_HOME
-    $HOME/.antigravity/antigravity/bin
-    $HOME/.opencode/bin
     $path
 )
+
+case $OSTYPE in
+  darwin*)
+    # Homebrew (sets PATH, MANPATH, HOMEBREW_PREFIX, INFOPATH, etc.)
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    path=(
+        $HOME/.lmstudio/bin
+        /Users/Shared/DBngin/postgresql/18.1/bin
+        $ANDROID_NDK_HOME
+        $HOME/.antigravity/antigravity/bin
+        $HOME/.antigravity-ide/antigravity-ide/bin
+        $path
+    )
+    ;;
+  linux*)
+    path=(
+        $ANDROID_HOME/tools
+        $ANDROID_HOME/tools/bin
+        $ANDROID_HOME/cmdline-tools/latest/bin
+        $path
+    )
+    ;;
+esac
 export PATH
 
 # ─── Completion Styling ────────────────────────────────────────────────────
@@ -69,13 +95,14 @@ eval "$(mise activate zsh)"
 # ─── Bun completions ───────────────────────────────────────────────────────
 [ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
 
-# ─── Antigravity IDE (auto-managed by installer) ───────────────────────────
-export PATH="$HOME/.antigravity-ide/antigravity-ide/bin:$PATH"
-
-# ─── pnpm (auto-managed by `pnpm setup`) ───────────────────────────────────
-export PNPM_HOME="$HOME/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME/bin:"*) ;;
-  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+# ─── pnpm (macOS only; auto-managed by `pnpm setup`) ───────────────────────
+case $OSTYPE in
+  darwin*)
+    export PNPM_HOME="$HOME/Library/pnpm"
+    case ":$PATH:" in
+      *":$PNPM_HOME/bin:"*) ;;
+      *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+    esac
+    # pnpm end
+    ;;
 esac
-# pnpm end

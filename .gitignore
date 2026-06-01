@@ -1,3 +1,10 @@
 nchat/*
 !nchat/*.conf
 .DS_Store
+
+# Local-only secrets (each machine keeps its own)
+oh-my-zsh/custom/env.zsh
+
+# Tool-local state
+.agents/
+skills-lock.json
