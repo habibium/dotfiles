@@ -5,6 +5,34 @@ alias im='magick'
 alias gurc='git reset --soft HEAD~'
 alias lg='lazygit'
 
+# Socket Firewall Aliases
+# JavaScript/TypeScript
+alias npm="sfw npm"
+alias yarn="sfw yarn"
+alias pnpm="sfw pnpm"
+
+# Python
+alias pip="sfw pip"
+alias pip3="sfw pip3"
+alias uv="sfw uv"
+
+# Rust
+alias cargo="sfw cargo"
+
+# Go
+alias go="sfw go"
+
+# Java/Scala/Kotlin
+alias mvn="sfw mvn"
+alias gradle="sfw gradle"
+
+# Ruby
+alias gem="sfw gem"
+alias bundle="sfw bundle"
+
+# .NET
+alias dotnet="sfw dotnet"
+
 t() {
     find "$1" | sort | sed 's/[^/]*\//  /g;s/  \([^  ]\)/┃━ \1/'
 }
@@ -37,8 +65,7 @@ case $OSTYPE in
         rm "$local_path"
 
         # Copy the REMOTE path to the LOCAL clipboard for easy paste into a
-        # remote tool (e.g. OpenCode) that doesn't accept .png clipboard data.
-        echo -n "${remote_dest%g}" | pbcopy
+        echo -n "${remote_dest}" | pbcopy
 
         echo "✅ Uploaded to $remote_dest"
         echo "📋 Remote path copied to clipboard! Just Cmd+V in your SSH session."
