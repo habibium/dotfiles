@@ -95,14 +95,14 @@ eval "$(mise activate zsh)"
 # ─── Bun completions ───────────────────────────────────────────────────────
 [ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
 
-# ─── pnpm (macOS only; auto-managed by `pnpm setup`) ───────────────────────
+
+# pnpm
 case $OSTYPE in
-  darwin*)
-    export PNPM_HOME="$HOME/Library/pnpm"
-    case ":$PATH:" in
-      *":$PNPM_HOME/bin:"*) ;;
-      *) export PATH="$PNPM_HOME/bin:$PATH" ;;
-    esac
-    # pnpm end
-    ;;
+  darwin*) export PNPM_HOME="$HOME/Library/pnpm" ;;
+  linux*)  export PNPM_HOME="$HOME/.local/share/pnpm" ;;
 esac
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
