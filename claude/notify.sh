@@ -60,17 +60,24 @@ if [ "$(uname -s)" = "Darwin" ]; then
   exec terminal-notifier "${args[@]}" >/dev/null 2>&1
 fi
 
-# ── Linux (remote over SSH): OSC 9 routed to Ghostty via the tmux pane PTY ───
-# Claude Code runs hooks with NO controlling terminal, so writing to /dev/tty
-# fails with ENXIO. Write to the tmux pane's own PTY device instead (we own it,
-# and it is the same device the interactive shell writes to via fd1). Wrapped in
-# a tmux passthrough envelope, tmux forwards the OSC 9 to the outer terminal
-# (Ghostty on the Mac), which raises the desktop notification.
-#
+# ── Linux (remote over SSH) ──────────────────────────────────────────────────
+# Primary path: ntfy. POST to the self-hosted ntfy server running on this box;
+# the Mac subscribes over Tailscale and shows a native notification. Fully
+# out-of-band, so it reaches the Mac regardless of tmux pane focus, Ghostty
+# focus, or which app is active. Override with CC_NTFY_URL; set it empty to skip.
+ntfy_url="${CC_NTFY_URL-http://100.74.45.64:8090/claude}"
+if [ -n "$ntfy_url" ] && command -v curl >/dev/null 2>&1; then
+  curl -fsS -m 5 -H "Title: ${sub:-Claude Code}" -d "${title} — ${msg}" "$ntfy_url" >/dev/null 2>&1 && exit 0
+fi
+
+# Fallback path: OSC 9 routed to Ghostty via the tmux pane PTY. Used only if the
+# ntfy POST failed (server down / off-tailnet). Hooks run with NO controlling
+# terminal, so /dev/tty ENXIOs; write to the pane's own PTY device instead (the
+# same device the interactive shell writes to via fd1), wrapped in a tmux
+# passthrough envelope so tmux forwards the OSC 9 to Ghostty.
 # Caveat: tmux only forwards passthrough from a *visible* pane, so this delivers
-# when the claude pane is the active tmux pane (e.g. you switched macOS apps but
-# left this pane focused). A backgrounded pane registers only a bell — a tmux
-# limitation shared by every OSC-9-through-tmux notifier.
+# only when the claude pane is the active tmux pane; a backgrounded pane gets a
+# bell. (ntfy above has no such limitation — this is just a safety net.)
 body="$title"
 [ -n "$sub" ] && body+=" · $sub"
 body+=" — $msg"

@@ -44,6 +44,17 @@ ln -sf ~/Code/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
 curl -fsSL https://dmtrkovalenko.dev/install-fff-mcp.sh | bash
 claude mcp add -s user fff -- ~/.local/bin/fff-mcp
 
+# Claude Code remote notifications: self-hosted ntfy (Arch box -> Mac, out-of-band)
+# On the Arch box (user systemd service; requires `loginctl enable-linger $USER`):
+#   curl -fsSL https://github.com/binwiederhier/ntfy/releases/download/v2.24.0/ntfy_2.24.0_linux_amd64.tar.gz \
+#     | tar -xzO --wildcards '*/ntfy' > ~/.local/bin/ntfy && chmod +x ~/.local/bin/ntfy
+#   write ~/.config/ntfy/server.yml  (listen-http: "<tailscale-ip>:8090")
+#   write ~/.config/systemd/user/ntfy.service  (ExecStart=%h/.local/bin/ntfy serve --config %h/.config/ntfy/server.yml)
+#   systemctl --user enable --now ntfy
+# On the Mac (ntfy subscriber -> native notification via terminal-notifier):
+ln -sf ~/Code/dotfiles/claude/com.habib.ntfy-claude.plist ~/Library/LaunchAgents/com.habib.ntfy-claude.plist
+launchctl load -w ~/Library/LaunchAgents/com.habib.ntfy-claude.plist
+
 # If on macOS, run the next 3 commands after the brew bundle install below
 # pnpm (ensure node is installed)
 curl -fsSL https://get.pnpm.io/install.sh | sh -
