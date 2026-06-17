@@ -162,9 +162,9 @@ parts.push(`${BOLD}${CYAN}${model_name}${RESET}`);
 const thinking_on = input?.thinking?.enabled !== false;
 const effort_level = input?.effort?.level;
 if (!thinking_on) {
-  parts.push(`${GRAY}🧠 off${RESET}`);
+  parts.push(`${GRAY}off${RESET}`);
 } else if (effort_level) {
-  parts.push(`${effort_color(effort_level)}🧠 ${effort_level}${RESET}`);
+  parts.push(`${effort_color(effort_level)}${effort_level}${RESET}`);
 }
 
 // context
