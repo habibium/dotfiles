@@ -32,6 +32,11 @@ ln -sf ~/Code/dotfiles/zed/keymap.json   ~/.config/zed/keymap.json
 mkdir -p ~/.claude
 ln -sf ~/Code/dotfiles/claude/statusline.js ~/.claude/statusline.js
 
+# symlink Claude Code notification hook
+# then wire it to the Stop + Notification events in ~/.claude/settings.json
+mkdir -p ~/.claude/hooks
+ln -sf ~/Code/dotfiles/claude/notify.sh ~/.claude/hooks/notify.sh
+
 # If on macOS, run the next 3 commands after the brew bundle install below
 # pnpm (ensure node is installed)
 curl -fsSL https://get.pnpm.io/install.sh | sh -

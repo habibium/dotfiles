@@ -116,6 +116,16 @@ function pct_color(p) {
   return GREEN;
 }
 
+function effort_color(level) {
+  switch (level) {
+    case "max": return RED;
+    case "high": return YELLOW;
+    case "medium": return BLUE;
+    case "low": return GRAY;
+    default: return MAGENTA;
+  }
+}
+
 const raw = read_stdin_sync();
 const input = safe_json(raw);
 const home = process.env.HOME || "";
@@ -147,6 +157,15 @@ const parts = [];
 
 // model
 parts.push(`${BOLD}${CYAN}${model_name}${RESET}`);
+
+// thinking effort (always shown)
+const thinking_on = input?.thinking?.enabled !== false;
+const effort_level = input?.effort?.level;
+if (!thinking_on) {
+  parts.push(`${GRAY}🧠 off${RESET}`);
+} else if (effort_level) {
+  parts.push(`${effort_color(effort_level)}🧠 ${effort_level}${RESET}`);
+}
 
 // context
 if (ctx_tokens > 0) {
