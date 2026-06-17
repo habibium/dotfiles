@@ -60,14 +60,33 @@ if [ "$(uname -s)" = "Darwin" ]; then
   exec terminal-notifier "${args[@]}" >/dev/null 2>&1
 fi
 
-# ── Linux (remote over SSH): OSC 9 via tmux passthrough to the tty ───────────
-[ -w /dev/tty ] || exit 0
+# ── Linux (remote over SSH): OSC 9 routed to Ghostty via the tmux pane PTY ───
+# Claude Code runs hooks with NO controlling terminal, so writing to /dev/tty
+# fails with ENXIO. Write to the tmux pane's own PTY device instead (we own it,
+# and it is the same device the interactive shell writes to via fd1). Wrapped in
+# a tmux passthrough envelope, tmux forwards the OSC 9 to the outer terminal
+# (Ghostty on the Mac), which raises the desktop notification.
+#
+# Caveat: tmux only forwards passthrough from a *visible* pane, so this delivers
+# when the claude pane is the active tmux pane (e.g. you switched macOS apps but
+# left this pane focused). A backgrounded pane registers only a bell — a tmux
+# limitation shared by every OSC-9-through-tmux notifier.
 body="$title"
 [ -n "$sub" ] && body+=" · $sub"
 body+=" — $msg"
 body=${body//$'\e'/}; body=${body//$'\a'/}   # strip stray control chars
-if [ -n "$TMUX" ]; then
-  printf '\ePtmux;\e\e]9;%s\a\e\\' "$body" > /dev/tty
-else
-  printf '\e]9;%s\a' "$body" > /dev/tty
+
+tty_target=""
+if [ -n "$TMUX" ] && [ -n "$TMUX_PANE" ] && command -v tmux >/dev/null 2>&1; then
+  tty_target=$(tmux display -p -t "$TMUX_PANE" '#{pane_tty}' 2>/dev/null)
 fi
+[ -n "$tty_target" ] && [ -w "$tty_target" ] || tty_target=""
+
+if [ -n "$tty_target" ]; then
+  if [ -n "$TMUX" ]; then
+    printf '\ePtmux;\e\e]9;%s\a\e\\' "$body" >"$tty_target" 2>/dev/null
+  else
+    printf '\e]9;%s\a' "$body" >"$tty_target" 2>/dev/null
+  fi
+fi
+exit 0
