@@ -100,17 +100,6 @@ function git_dirty(cwd) {
   }
 }
 
-function caveman_level() {
-  try {
-    const p = path.join(process.env.HOME || "", ".claude/.caveman-active");
-    if (!fs.existsSync(p)) return null;
-    const v = fs.readFileSync(p, "utf8").trim();
-    return v || null;
-  } catch (_) {
-    return null;
-  }
-}
-
 function context_window_for(model_id) {
   // Defaults; Claude 4.x is 200k context.
   if (!model_id) return 200_000;
@@ -153,7 +142,6 @@ const ctx_pct = ctx_max ? Math.min(100, (ctx_tokens / ctx_max) * 100) : 0;
 
 const branch = git_branch(cwd);
 const dirty = branch ? git_dirty(cwd) : false;
-const cm = caveman_level();
 
 const parts = [];
 
@@ -173,11 +161,6 @@ if (ctx_tokens > 0) {
 // output style / effort hint
 if (output_style && output_style !== "default") {
   parts.push(`${MAGENTA}${output_style}${RESET}`);
-}
-
-// caveman
-if (cm) {
-  parts.push(`${YELLOW}cm:${cm}${RESET}`);
 }
 
 // cwd
