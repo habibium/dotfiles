@@ -67,7 +67,14 @@ fi
 # focus, or which app is active. Override with CC_NTFY_URL; set it empty to skip.
 ntfy_url="${CC_NTFY_URL-http://100.74.45.64:8090/claude}"
 if [ -n "$ntfy_url" ] && command -v curl >/dev/null 2>&1; then
-  curl -fsS -m 5 -H "Title: ${sub:-Claude Code}" -d "${title} — ${msg}" "$ntfy_url" >/dev/null 2>&1 && exit 0
+  ntfy_body="${title} — ${msg}"
+  # Append a deeplink target so clicking the Mac notification jumps to this exact
+  # remote tmux pane. Format: <<TMUX>><ssh-host>|<session>|<window>|<pane>
+  if [ -n "$TMUX" ] && [ -n "$TMUX_PANE" ] && command -v tmux >/dev/null 2>&1; then
+    dl=$(tmux display -p -t "$TMUX_PANE" "${CC_DEEPLINK_HOST:-omarchy-ts}|#{session_name}|#{window_index}|#{pane_index}" 2>/dev/null)
+    [ -n "$dl" ] && ntfy_body="${ntfy_body}<<TMUX>>${dl}"
+  fi
+  curl -fsS -m 5 -H "Title: ${sub:-Claude Code}" -d "$ntfy_body" "$ntfy_url" >/dev/null 2>&1 && exit 0
 fi
 
 # Fallback path: OSC 9 routed to Ghostty via the tmux pane PTY. Used only if the
