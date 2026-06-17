@@ -37,6 +37,13 @@ ln -sf ~/Code/dotfiles/claude/statusline.js ~/.claude/statusline.js
 mkdir -p ~/.claude/hooks
 ln -sf ~/Code/dotfiles/claude/notify.sh ~/.claude/hooks/notify.sh
 
+# symlink global Claude Code instructions (prefer fff for file/content search)
+ln -sf ~/Code/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
+
+# install fff-mcp (fast file search for AI agents) + register with Claude Code
+curl -fsSL https://dmtrkovalenko.dev/install-fff-mcp.sh | bash
+claude mcp add -s user fff -- ~/.local/bin/fff-mcp
+
 # If on macOS, run the next 3 commands after the brew bundle install below
 # pnpm (ensure node is installed)
 curl -fsSL https://get.pnpm.io/install.sh | sh -
