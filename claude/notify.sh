@@ -1,38 +1,74 @@
 #!/usr/bin/env bash
 # Claude Code notifier — fires on Stop (Claude finished a turn) and Notification
-# (needs permission / has been idle). Posts a desktop notification so you know a
-# session needs you without having to watch it.
+# (needs permission / has been idle). Posts a rich desktop notification that
+# identifies WHICH session it is for, so you can tell apart many concurrent
+# sessions across the Mac, the remote box, multiple projects, and parallel git
+# worktrees of one project:
 #
-# Why a hook instead of Claude's built-in notifications: inside tmux, Claude's
-# OSC 9 notifications are swallowed by tmux and never reach Ghostty. This hook
-# runs as its own process and uses a path tmux cannot eat:
+#     title:    <emoji> <project>
+#     subtitle: <host> · <branch> · <tmux-session>:<window>
+#     message:  <status / Claude's message>
 #
-#   macOS  -> terminal-notifier (Notification Center). Clicking it jumps tmux
-#             back to the originating session/window/pane and raises Ghostty.
-#   Linux  -> OSC 9 wrapped in a tmux DCS passthrough envelope, written to the
-#             controlling tty. The remote tmux re-emits the inner OSC, SSH
-#             carries it back, and local Ghostty shows it. Requires
-#             `set -g allow-passthrough on` in the remote tmux.
+# Delivery:
+#   macOS  -> terminal-notifier (Notification Center). Click jumps to the pane.
+#   Linux  -> POST to the self-hosted ntfy server; the Mac subscriber renders it
+#             via terminal-notifier (out-of-band; works regardless of tmux/Ghostty
+#             focus). Falls back to OSC 9 via the pane PTY if ntfy is unreachable.
 #
-# By default it stays quiet while you are already looking at the active Ghostty
-# pane (you can see it finished). Set CC_NOTIFY_ALWAYS=1 to notify regardless.
-#
+# By default it stays quiet (macOS) while you are already looking at the active
+# Ghostty pane. Set CC_NOTIFY_ALWAYS=1 to notify regardless.
 # Wire it to BOTH the Stop and Notification events in settings.json.
 
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
 
 input=$(cat)
-
-ev=$(printf '%s' "$input"  | jq -r '.hook_event_name // empty')
+ev=$(printf '%s'  "$input" | jq -r '.hook_event_name // empty')
 msg=$(printf '%s' "$input" | jq -r '.message // empty')
 cwd=$(printf '%s' "$input" | jq -r '.cwd // empty')
-sub=""; [ -n "$cwd" ] && sub=$(basename "$cwd")
+[ -n "$cwd" ] || cwd="$PWD"
+
+# ── Identity: host · project · branch (+ tmux session) ───────────────────────
+case "$(uname -s)" in
+  Darwin) host="${CC_NOTIFY_HOST:-mac}" ;;
+  *)      host="${CC_NOTIFY_HOST:-$(hostname -s 2>/dev/null || hostname 2>/dev/null)}" ;;
+esac
+
+proj="$(basename "$cwd")"
+branch=""
+if command -v git >/dev/null 2>&1; then
+  # Project = the MAIN repo dir, so every worktree of a repo shares one name;
+  # the branch below is what tells parallel worktrees apart.
+  gcd="$(git -C "$cwd" rev-parse --path-format=absolute --git-common-dir 2>/dev/null)"
+  if [ -n "$gcd" ]; then
+    proj="$(basename "$(dirname "$gcd")")"
+  else
+    top="$(git -C "$cwd" rev-parse --show-toplevel 2>/dev/null)"
+    [ -n "$top" ] && proj="$(basename "$top")"
+  fi
+  branch="$(git -C "$cwd" symbolic-ref --quiet --short HEAD 2>/dev/null)"
+  [ -n "$branch" ] || branch="$(git -C "$cwd" rev-parse --short HEAD 2>/dev/null)"  # detached HEAD
+fi
 
 case "$ev" in
-  Stop|SubagentStop) title="✅ Claude done";  [ -n "$msg" ] || msg="Finished — awaiting your input" ;;
-  Notification)      title="🔔 Claude Code";  [ -n "$msg" ] || msg="Waiting for you" ;;
-  *)                 title="🔔 Claude Code";  [ -n "$msg" ] || msg="Notification" ;;
+  Stop|SubagentStop) emoji="✅"; [ -n "$msg" ] || msg="Finished — awaiting your input" ;;
+  Notification)      emoji="🔔"; [ -n "$msg" ] || msg="Waiting for you" ;;
+  *)                 emoji="🔔"; [ -n "$msg" ] || msg="Notification" ;;
 esac
+
+n_title="${emoji} ${proj}"
+n_sub="${host}${branch:+ · ${branch}}"
+
+# tmux locator (also drives the click-to-jump deeplink). Appended to the subtitle.
+t_sess=""; t_win=""; t_pane=""
+if [ -n "$TMUX" ] && [ -n "$TMUX_PANE" ] && command -v tmux >/dev/null 2>&1; then
+  t_sess=$(tmux display -p -t "$TMUX_PANE" '#{session_name}' 2>/dev/null)
+  t_win=$(tmux  display -p -t "$TMUX_PANE" '#{window_index}'  2>/dev/null)
+  t_pane=$(tmux display -p -t "$TMUX_PANE" '#{pane_index}'    2>/dev/null)
+  [ -n "$t_sess" ] && n_sub="${n_sub} · ${t_sess}:${t_win}"
+fi
+
+# One group per session so concurrent sessions don't collapse into one another.
+grp="claude-${host}-${proj}-${branch}-${t_sess}-${t_win}"
 
 # ── macOS: terminal-notifier ────────────────────────────────────────────────
 if [ "$(uname -s)" = "Darwin" ]; then
@@ -47,60 +83,38 @@ if [ "$(uname -s)" = "Darwin" ]; then
     fi
   fi
 
-  args=( -title "$title" -message "$msg" -sound Glass -activate com.mitchellh.ghostty )
-  [ -n "$sub" ] && args+=( -subtitle "$sub" -group "claude-code-${TMUX_PANE:-$sub}" )
-
-  if [ -n "$TMUX" ] && [ -n "$TMUX_PANE" ]; then
+  args=( -title "$n_title" -subtitle "$n_sub" -message "$msg"
+         -sound Glass -activate com.mitchellh.ghostty -group "$grp" )
+  if [ -n "$t_sess" ]; then
     tmux_bin=$(command -v tmux || echo /opt/homebrew/bin/tmux)
-    sess=$(tmux display -p -t "$TMUX_PANE" '#{session_name}' 2>/dev/null)
-    win=$(tmux  display -p -t "$TMUX_PANE" '#{window_index}'  2>/dev/null)
-    args+=( -execute "$tmux_bin switch-client -t '$sess'; $tmux_bin select-window -t '$sess:$win'; $tmux_bin select-pane -t '$TMUX_PANE'; open -a Ghostty" )
+    args+=( -execute "$tmux_bin switch-client -t '$t_sess'; $tmux_bin select-window -t '$t_sess:$t_win'; $tmux_bin select-pane -t '$TMUX_PANE'; open -a Ghostty" )
   fi
-
   exec terminal-notifier "${args[@]}" >/dev/null 2>&1
 fi
 
-# ── Linux (remote over SSH) ──────────────────────────────────────────────────
-# Primary path: ntfy. POST to the self-hosted ntfy server running on this box;
-# the Mac subscribes over Tailscale and shows a native notification. Fully
-# out-of-band, so it reaches the Mac regardless of tmux pane focus, Ghostty
-# focus, or which app is active. Override with CC_NTFY_URL; set it empty to skip.
+# ── Linux (remote over SSH): ntfy primary ────────────────────────────────────
+# The Mac subscriber renders this into terminal-notifier fields. Structured body:
+#   <title><<F>><subtitle><<F>><message>[<<TMUX>><ssh-host>|<sess>|<win>|<pane>]
 ntfy_url="${CC_NTFY_URL-http://100.74.45.64:8090/claude}"
 if [ -n "$ntfy_url" ] && command -v curl >/dev/null 2>&1; then
-  ntfy_body="${title} — ${msg}"
-  # Append a deeplink target so clicking the Mac notification jumps to this exact
-  # remote tmux pane. Format: <<TMUX>><ssh-host>|<session>|<window>|<pane>
-  if [ -n "$TMUX" ] && [ -n "$TMUX_PANE" ] && command -v tmux >/dev/null 2>&1; then
-    dl=$(tmux display -p -t "$TMUX_PANE" "${CC_DEEPLINK_HOST:-omarchy-ts}|#{session_name}|#{window_index}|#{pane_index}" 2>/dev/null)
-    [ -n "$dl" ] && ntfy_body="${ntfy_body}<<TMUX>>${dl}"
-  fi
-  curl -fsS -m 5 -H "Title: ${sub:-Claude Code}" -d "$ntfy_body" "$ntfy_url" >/dev/null 2>&1 && exit 0
+  body="${n_title}<<F>>${n_sub}<<F>>${msg}"
+  [ -n "$t_sess" ] && body="${body}<<TMUX>>${CC_DEEPLINK_HOST:-omarchy-ts}|${t_sess}|${t_win}|${t_pane}"
+  curl -fsS -m 5 -H "Title: ${proj}${branch:+ (${branch})}" -d "$body" "$ntfy_url" >/dev/null 2>&1 && exit 0
 fi
 
-# Fallback path: OSC 9 routed to Ghostty via the tmux pane PTY. Used only if the
-# ntfy POST failed (server down / off-tailnet). Hooks run with NO controlling
-# terminal, so /dev/tty ENXIOs; write to the pane's own PTY device instead (the
-# same device the interactive shell writes to via fd1), wrapped in a tmux
-# passthrough envelope so tmux forwards the OSC 9 to Ghostty.
-# Caveat: tmux only forwards passthrough from a *visible* pane, so this delivers
-# only when the claude pane is the active tmux pane; a backgrounded pane gets a
-# bell. (ntfy above has no such limitation — this is just a safety net.)
-body="$title"
-[ -n "$sub" ] && body+=" · $sub"
-body+=" — $msg"
-body=${body//$'\e'/}; body=${body//$'\a'/}   # strip stray control chars
-
+# ── Fallback: OSC 9 via the tmux pane PTY (only when the pane is visible) ─────
+osc="${n_title} — ${n_sub} — ${msg}"
+osc=${osc//$'\e'/}; osc=${osc//$'\a'/}
 tty_target=""
 if [ -n "$TMUX" ] && [ -n "$TMUX_PANE" ] && command -v tmux >/dev/null 2>&1; then
   tty_target=$(tmux display -p -t "$TMUX_PANE" '#{pane_tty}' 2>/dev/null)
 fi
 [ -n "$tty_target" ] && [ -w "$tty_target" ] || tty_target=""
-
 if [ -n "$tty_target" ]; then
   if [ -n "$TMUX" ]; then
-    printf '\ePtmux;\e\e]9;%s\a\e\\' "$body" >"$tty_target" 2>/dev/null
+    printf '\ePtmux;\e\e]9;%s\a\e\\' "$osc" >"$tty_target" 2>/dev/null
   else
-    printf '\e]9;%s\a' "$body" >"$tty_target" 2>/dev/null
+    printf '\e]9;%s\a' "$osc" >"$tty_target" 2>/dev/null
   fi
 fi
 exit 0
