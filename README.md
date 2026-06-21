@@ -28,6 +28,9 @@ mkdir -p ~/.config/zed
 ln -sf ~/Code/dotfiles/zed/settings.json ~/.config/zed/settings.json
 ln -sf ~/Code/dotfiles/zed/keymap.json   ~/.config/zed/keymap.json
 
+# symlink Starship prompt config (same path on macOS + Linux)
+ln -sf ~/Code/dotfiles/starship/starship.toml ~/.config/starship.toml
+
 # symlink Claude Code statusline script
 mkdir -p ~/.claude
 ln -sf ~/Code/dotfiles/claude/statusline.js ~/.claude/statusline.js

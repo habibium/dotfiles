@@ -1,0 +1,28 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+right_format = "$time"
+
+[time]
+disabled = false
+time_format = "%I:%M:%S %p"
+format = "[$time]($style) "
+style = "dimmed white"
+
+[directory]
+truncation_length = 0
+truncate_to_repo = false
+home_symbol = "~"
+
+# Hide cloud provider / credential modules from the prompt
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[azure]
+disabled = true
+
+[openstack]
+disabled = true
+
