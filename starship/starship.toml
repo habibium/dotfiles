@@ -13,6 +13,13 @@ truncation_length = 0
 truncate_to_repo = false
 home_symbol = "~"
 
+# Hide username + hostname (otherwise shown over SSH / as root)
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
 # Hide cloud provider / credential modules from the prompt
 [aws]
 disabled = true
