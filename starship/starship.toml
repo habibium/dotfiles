@@ -33,3 +33,88 @@ disabled = true
 [openstack]
 disabled = true
 
+# ── Language / compiler / interpreter / runtime icons ──
+# Nerd Font glyphs (JetBrains Mono Nerd Font) instead of the default emojis.
+# Codepoints verified against the font cmap; names from the Nerd Font set.
+[package]
+symbol = " " # cod-package
+display_private = true # show version even for package.json marked "private": true
+
+[docker_context]
+disabled = true
+symbol = "  "
+
+[rust]
+symbol = " " # dev-rust
+
+[python]
+symbol = " " # dev-python
+
+[nodejs]
+symbol = " " # dev-nodejs_small
+
+[deno]
+symbol = " " # dev-denojs
+
+[bun]
+symbol = " " # dev-bun
+
+[golang]
+symbol = " " # dev-go
+
+[c]
+symbol = " " # custom-c (C / C++)
+
+[dotnet]
+symbol = " " # dev-dotnet
+
+[java]
+symbol = " " # dev-java
+
+[kotlin]
+symbol = " " # dev-kotlin
+
+[scala]
+symbol = " " # dev-scala
+
+[ruby]
+symbol = " " # dev-ruby
+
+[php]
+symbol = " " # dev-php
+
+[perl]
+symbol = " " # dev-perl
+
+[lua]
+symbol = " " # dev-lua
+
+[swift]
+symbol = " " # dev-swift
+
+[dart]
+symbol = " " # dev-dart
+
+[elixir]
+symbol = " " # dev-elixir
+
+[erlang]
+symbol = " " # dev-erlang
+
+[haskell]
+symbol = " " # dev-haskell
+
+[ocaml]
+symbol = " " # dev-ocaml
+
+[julia]
+symbol = " " # dev-julia
+
+[crystal]
+symbol = " " # dev-crystal
+
+[nim]
+symbol = " " # dev-nim
+
+[zig]
+symbol = " " # dev-zig
