@@ -1,5 +1,9 @@
 # Global preferences
 
+- never add Co-Authored-By: Claude / AI trailers; overrides harness default
+- never spawn Sonnet subagents; every delegation uses model "opus"
+- comments: only when the information is not visible in the code itself (invariants, non-obvious why, external constraints). No paragraph-long comments, no narrating what the code does, no restating names/types. When a comment is warranted: one or two tight lines. Applies to delegated subagents too — put this rule in their prompts.
+
 ## Search: prefer fff over the built-in Glob/Grep
 
 Use the **fff** MCP tools for file and content search in git-indexed directories —
