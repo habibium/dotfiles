@@ -1,5 +1,6 @@
 {
   "indent_guides": {
+    "active_line_width": 2,
     "background_coloring": "disabled",
     "coloring": "indent_aware"
   },
@@ -46,7 +47,8 @@
   },
   "icon_theme": "Material Icon Theme",
   "tabs": {
-    "file_icons": true
+    "file_icons": true,
+    "show_diagnostics": "all"
   },
   "vim_mode": true,
   "vim": {
@@ -274,6 +276,9 @@
         }
       ]
     },
+    "TOML": {
+      "format_on_save": "on"
+    },
     "TypeScript": {
       "soft_wrap": "editor_width",
       "format_on_save": "on",
@@ -354,37 +359,69 @@
       "args": [],
       "projects": [
         {
-          "paths": ["/home/habib/Code"]
+          "paths": [
+            "/home/habib/Code"
+          ]
         },
         {
-          "paths": ["/home/habib/Code/MIEEnglish_BD/./"]
+          "paths": [
+            "/home/habib/Code/MIEEnglish_BD/./"
+          ]
         },
         {
-          "paths": ["/home/habib/Code/ahzassociates.com/ahz_new"]
+          "paths": [
+            "/home/habib/Code/ahzassociates.com/ahz_new"
+          ]
         },
         {
-          "paths": ["/home/habib/Code/ez-own"]
+          "paths": [
+            "/home/habib/Code/ez-own"
+          ]
         },
         {
-          "paths": ["/home/habib/Code/ez-own/./"]
+          "paths": [
+            "/home/habib/Code/ez-own/./"
+          ]
         },
         {
-          "paths": ["/home/habib/Code/mh-global-crm/mieCRM/./"]
+          "paths": [
+            "/home/habib/Code/hodis/./"
+          ]
         },
         {
-          "paths": ["/home/habib/Code/mie_pathway/./"]
+          "paths": [
+            "/home/habib/Code/mh-global-crm/mieCRM/./"
+          ]
         },
         {
-          "paths": ["/home/habib/Code/mieglobal_ahzsite"]
+          "paths": [
+            "/home/habib/Code/mie_pathway/./"
+          ]
         },
         {
-          "paths": ["/home/habib/Code/mieglobal_ahzsite/next/./"]
+          "paths": [
+            "/home/habib/Code/mieglobal_ahzsite"
+          ]
         },
         {
-          "paths": ["/home/habib/Code/rust-playground/./"]
+          "paths": [
+            "/home/habib/Code/mieglobal_ahzsite/next/./"
+          ]
         },
         {
-          "paths": ["/home/habib/Code/whatsapp-message-scheduler/./"]
+          "paths": [
+            "/home/habib/Code/rust-playground/./"
+          ]
+        },
+        {
+          "paths": [
+            "/home/habib/Code/rust-temp"
+          ]
+        },
+        {
+          "paths": [
+            "/home/habib/Code/whatsapp-message-scheduler/./"
+          ]
         }
       ]
     },
@@ -393,13 +430,19 @@
       "args": [],
       "projects": [
         {
-          "paths": ["/home/habib/Code"]
+          "paths": [
+            "/home/habib/Code"
+          ]
         },
         {
-          "paths": ["/home/habib/Code/ez-own/./"]
+          "paths": [
+            "/home/habib/Code/ez-own/./"
+          ]
         },
         {
-          "paths": ["/home/habib/Code/whatsapp-message-scheduler/./"]
+          "paths": [
+            "/home/habib/Code/whatsapp-message-scheduler/./"
+          ]
         }
       ]
     },
@@ -408,13 +451,45 @@
       "args": [],
       "projects": [
         {
-          "paths": ["/home/habib/Code/ez-own/./"]
+          "paths": [
+            "/home/habib/Code/ez-own/./"
+          ]
         },
         {
-          "paths": ["/home/habib/Code/whatsapp-automator"]
+          "paths": [
+            "/home/habib/Code/hodis"
+          ]
         },
         {
-          "paths": ["/home/habib/Code/whatsapp-message-scheduler/./"]
+          "paths": [
+            "/home/habib/Code/resume/./"
+          ]
+        },
+        {
+          "paths": [
+            "/home/habib/Code/whatsapp-automator"
+          ]
+        },
+        {
+          "paths": [
+            "/home/habib/Code/whatsapp-message-scheduler/./"
+          ]
+        }
+      ]
+    },
+    {
+      "host": "omarchy-ts",
+      "args": [],
+      "projects": [
+        {
+          "paths": [
+            "/home/habib/Code"
+          ]
+        },
+        {
+          "paths": [
+            "/home/habib/Code/hodis/./"
+          ]
         }
       ]
     }
