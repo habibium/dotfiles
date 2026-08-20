@@ -1,0 +1,55 @@
+# Linux (omarchy). Only this file is tracked; logs, sockets, session and plugin
+# state stay in ~/.config/herdr. Keep [keys] in sync with config.toml.
+onboarding = false
+
+
+[keys]
+# Applies when you ssh in and run herdr directly; --remote/--handoff uses the
+# local Mac keybindings. Kept in sync with the Mac config.
+prefix = "ctrl+a"
+detach = "prefix+d"
+reload_config = "prefix+r"
+resize_mode = "prefix+shift+r"
+previous_tab = "prefix+ctrl+h"
+next_tab = "prefix+ctrl+l"
+rename_tab = "prefix+comma"
+close_tab = "prefix+ampersand"
+close_workspace = "prefix+shift+x"
+workspace_picker = "prefix+s"
+settings = "prefix+shift+s"
+copy_mode = "prefix+enter"
+previous_workspace = "prefix+("
+next_workspace = "prefix+)"
+previous_agent = "prefix+p"
+next_agent = "prefix+n"
+zoom = "prefix+shift+="
+switch_workspace = "prefix+shift+1..9"
+focus_agent = "prefix+alt+1..9"
+new_tab = "prefix+c"
+new_workspace = "prefix+ctrl+c"
+split_vertical = "prefix+shift+minus"
+split_horizontal = "prefix+minus"
+
+[[keys.command]]
+key = "prefix+t"
+type = "plugin_action"
+command = "herdr-navigator.open"
+description = "jump to anything"
+
+[ui]
+mouse_scroll_lines = 1
+prompt_new_tab_name = false
+pane_gaps = false
+prompt_new_workspace_name = true
+
+[ui.toast]
+# No focus-notify here (macOS-only), so herdr's own toast is the only path.
+# It routes to the attached client, i.e. your Mac's Ghostty.
+delivery = "terminal"
+
+[ui.sound]
+enabled = true
+
+[theme]
+name = "terminal"
+auto_switch = false
