@@ -35,11 +35,6 @@ ln -sf ~/Code/dotfiles/starship/starship.toml ~/.config/starship.toml
 mkdir -p ~/.claude
 ln -sf ~/Code/dotfiles/claude/statusline.js ~/.claude/statusline.js
 
-# symlink Claude Code notification hook
-# then wire it to the Stop + Notification events in ~/.claude/settings.json
-mkdir -p ~/.claude/hooks
-ln -sf ~/Code/dotfiles/claude/notify.sh ~/.claude/hooks/notify.sh
-
 # symlink global Claude Code instructions (prefer fff for file/content search)
 ln -sf ~/Code/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
 
@@ -47,16 +42,8 @@ ln -sf ~/Code/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
 curl -fsSL https://dmtrkovalenko.dev/install-fff-mcp.sh | bash
 claude mcp add -s user fff -- ~/.local/bin/fff-mcp
 
-# Claude Code remote notifications: self-hosted ntfy (Arch box -> Mac, out-of-band)
-# On the Arch box (user systemd service; requires `loginctl enable-linger $USER`):
-#   curl -fsSL https://github.com/binwiederhier/ntfy/releases/download/v2.24.0/ntfy_2.24.0_linux_amd64.tar.gz \
-#     | tar -xzO --wildcards '*/ntfy' > ~/.local/bin/ntfy && chmod +x ~/.local/bin/ntfy
-#   write ~/.config/ntfy/server.yml  (listen-http: "<tailscale-ip>:8090")
-#   write ~/.config/systemd/user/ntfy.service  (ExecStart=%h/.local/bin/ntfy serve --config %h/.config/ntfy/server.yml)
-#   systemctl --user enable --now ntfy
-# On the Mac (ntfy subscriber -> native notification via terminal-notifier):
-ln -sf ~/Code/dotfiles/claude/com.habib.ntfy-claude.plist ~/Library/LaunchAgents/com.habib.ntfy-claude.plist
-launchctl load -w ~/Library/LaunchAgents/com.habib.ntfy-claude.plist
+# Claude Code notifications are handled by herdr (~/.config/herdr/config.toml)
+herdr integration install claude
 
 # If on macOS, run the next 3 commands after the brew bundle install below
 # pnpm (ensure node is installed)

@@ -42,6 +42,9 @@ brew "ripgrep"
 brew "scrcpy"
 brew "sevenzip"
 brew "smartmontools"
+# herdr's macOS notification backend; without it herdr falls back to osascript,
+# which macOS attributes to Script Editor
+brew "terminal-notifier"
 brew "tmux"
 brew "urlview"
 brew "watch"

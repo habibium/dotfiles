@@ -17,7 +17,7 @@ alias pip3="sfw pip3"
 alias uv="sfw uv"
 
 # Rust
-alias cargo="sfw cargo"
+# alias cargo="sfw cargo"
 
 # Go
 alias go="sfw go"
@@ -42,10 +42,6 @@ case $OSTYPE in
   darwin*)
     alias pwrinfo='system_profiler SPPowerDataType'
     alias idea='open -na "IntelliJ IDEA"'
-
-    notify() {
-      terminal-notifier -title "Command completed" -message "" -sound default
-    }
 
     # Upload Mac clipboard image to remote host.
     # Usage: imgup <ssh-host>
@@ -74,9 +70,5 @@ case $OSTYPE in
   linux*)
     alias conda0='conda init --all --reverse'
     alias conda1='~/.miniconda3/bin/conda init bash; ~/.miniconda3/bin/conda init zsh'
-
-    notify() {
-      command -v notify-send >/dev/null 2>&1 && notify-send "Command completed"
-    }
     ;;
 esac
