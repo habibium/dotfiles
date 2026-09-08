@@ -42,12 +42,11 @@ ln -sf ~/Code/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
 curl -fsSL https://dmtrkovalenko.dev/install-fff-mcp.sh | bash
 claude mcp add -s user fff -- ~/.local/bin/fff-mcp
 
-# symlink herdr config -- pick the line for this machine. Only config.toml is
-# tracked; logs, sockets, session and plugin state stay in ~/.config/herdr,
-# so the directory itself cannot be symlinked the way nvim/ghostty are.
+# symlink herdr config. Only config.toml is tracked; logs, sockets, session and
+# plugin state stay in ~/.config/herdr, so the directory itself cannot be
+# symlinked the way nvim/ghostty are.
 mkdir -p ~/.config/herdr
-ln -sf ~/Code/dotfiles/herdr/config.toml       ~/.config/herdr/config.toml  # macOS
-# ln -sf ~/Code/dotfiles/herdr/config.linux.toml ~/.config/herdr/config.toml  # Linux
+ln -sf ~/Code/dotfiles/herdr/config.toml ~/.config/herdr/config.toml
 
 # Claude Code notifications are handled by herdr
 herdr integration install claude

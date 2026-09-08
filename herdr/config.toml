@@ -1,5 +1,5 @@
-# macOS. Only this file is tracked; logs, sockets, session and plugin state
-# stay in ~/.config/herdr. Keep [keys] in sync with config.linux.toml.
+# Shared by every machine. Only this file is tracked; logs, sockets, session
+# and plugin state stay in ~/.config/herdr.
 onboarding = false
 
 [keys]
@@ -22,17 +22,12 @@ next_agent = "prefix+n"
 zoom = "prefix+shift+="
 switch_workspace = "prefix+shift+1..9"
 focus_agent = "prefix+alt+1..9"
+goto = "prefix+t"
 
 new_tab = "prefix+c"
 new_workspace = "prefix+ctrl+c"
 split_vertical = "prefix+shift+minus"
 split_horizontal = "prefix+minus"
-
-[[keys.command]]
-key = "prefix+t"
-type = "plugin_action"
-command = "herdr-navigator.open"
-description = "jump to anything"
 
 [ui]
 mouse_scroll_lines = 1
@@ -41,7 +36,9 @@ pane_gaps = false
 prompt_new_workspace_name = true
 
 [ui.toast]
-delivery = "off"  # focus-notify plugin owns agent toasts (clickable)
+# system = terminal-notifier; click activates Ghostty, then prefix+o jumps to the pane.
+# Covers agents on connected machines too, which a server-side plugin cannot.
+delivery = "system"
 
 [ui.sound]
 enabled = true
